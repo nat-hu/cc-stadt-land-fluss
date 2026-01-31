@@ -1,0 +1,72 @@
+<div class="hall-of-fame">
+  <div class="page-title-container">
+    <h1>Hall of Fame</h1>
+  </div>
+
+  <div class="results">
+    <h2 class="results-header">Ergebnisse</h2>
+    <div class="loader" *ngIf="!resultsLoaded"></div>
+    <div class="error-message" *ngIf="resultsLoadingError">
+      <p>Die Ergebnisse für dieses Spiel konnten nicht geladen werden</p>
+      <label for="roomId" *ngIf="displayRoomIdInput">Bitte Room-ID angeben und Ergebnisse neu laden: </label>
+      <input type="text" id="roomId" name="roomId" value="" [(ngModel)]="roomId" *ngIf="displayRoomIdInput" maxlength="40">
+      <button (click)="setNewRoomId()">Ergebnisse neu laden</button>
+    </div>
+    <div class="results-table" *ngIf="resultsLoaded && !resultsLoadingError">
+      <table>
+        <tr>
+          <th>Rang</th>
+          <th>Spieler</th>
+          <th>Punkte</th>
+        </tr>
+        <tr *ngFor="let player of playersData; let i = index">
+          <td>{{i+1}}</td>
+          <td>{{player.username}}</td>
+          <td>{{player.pointsSum}}</td>
+        </tr>
+      </table>
+    </div>
+
+    <button class="results-overview-button" (click)="showResults()" [disabled]="!resultsLoaded || resultsLoadingError">
+      Ergebnisübersicht
+    </button>
+  </div>
+
+  <button class="exit-room-button" (click)="exitRoom()">Raum verlassen</button>
+</div>
+
+<!-- Results overview modal -->
+<div class="results-overview-container" *ngIf="displayResults">
+
+  <div class="results-overview">
+    <div class="results-overview-header">
+      <span class="close" (click)="closeResults()">&times;</span>
+      <h2>Ergebnisübersicht</h2>
+    </div>
+    <div class="results-overview-body" *ngIf="roomData">
+      <table>
+        <tr class="table-block">
+          <th>Buchstabe</th>
+          <th>Spieler</th>
+          <th *ngFor="let category of roomData.categories">{{category}}</th>
+          <th>Punkte</th>
+        </tr>
+      <ng-container *ngFor="let letter of roomData.usedLetters; let i = index" class="table-block">
+        <tr *ngFor="let player of playersData; let playerIndex = index"
+            [ngClass]="{'table-block': playerIndex === playersData.length-1}">
+          <ng-container *ngIf="player.values.length > i">
+            <td *ngIf="playerIndex===0" class="letter" [attr.rowspan]="playersData.length">{{letter}}</td>
+            <td>{{player.username}}</td>
+            <td *ngFor="let category of roomData.categories; let idx = index">{{player.values[i][idx] || ''}}</td>
+            <td>{{player.points[i] || 0}}</td>
+          </ng-container>
+        </tr>
+      </ng-container>
+      </table>
+    </div>
+    <div class="results-overview-footer">
+      <button class="close-results-button" (click)="closeResults()">Schließen</button>
+    </div>
+  </div>
+
+</div>

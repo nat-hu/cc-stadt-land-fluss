@@ -1,0 +1,28 @@
+<div class="page-title-container">
+  <h1>Ergebnisse der Runde</h1>
+</div>
+
+<div class="body-container input-review-container">
+  <div class="loader" *ngIf="!userInputsLoaded"></div>
+  <div class="table-wrapper" *ngIf="userInputsLoaded">
+    <table>
+      <thead>
+      <tr>
+        <th *ngFor="let header of _object.keys(jsonData[0]); let i = index">{{header}}</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let row of jsonData; let i = index">
+        <td *ngFor="let objKey of _object.keys(row); let j = index">{{ row[objKey] }} </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <button (click)="startNextRound()" *ngIf="currentRound < numberOfRounds && userInputsLoaded"
+          [disabled]="nextRoundButtonDisabled" class="forward-button">
+    Nächste Runde
+  </button>
+  <button (click)="navigateToHallOfFame()" *ngIf="currentRound >= numberOfRounds && userInputsLoaded" class="forward-button">
+    Hall of Fame
+  </button>
+</div>

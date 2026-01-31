@@ -1,0 +1,117 @@
+service: aws-serverless-websockets
+provider:
+  name: aws
+  runtime: python3.9
+  region: eu-central-1
+  environment:
+    CONNECTION_DB_TABLE: ${self:resources.Resources.MyAppTable.Properties.TableName}
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - "dynamodb:PutItem"
+        - "dynamodb:GetItem"
+        - "dynamodb:DeleteItem"
+        - "dynamodb:Scan"
+        - "dynamodb:UpdateItem"
+        - "dynamodb:Query"
+        - "dynamodb:BatchWriteItem"
+        - "dynamodb:UpdateItem"
+      Resource:
+        - Fn::GetAtt: [MyAppTable, Arn]
+    - Effect: Allow
+      Action:
+        - "execute-api:ManageConnections"
+
+      Resource:
+        - "arn:aws:execute-api:*:*:**/@connections/*"
+
+functions:
+  # TODO: remove?
+  defaultHandler:
+    handler: handler.defaultHandler
+    events:
+      - websocket:
+          route: $default
+
+  broadcast_to_room:
+    handler: broadcast_message_handler.broadcast_to_room
+    events:
+      - websocket:
+          route: broadcast_to_room
+  stop_round:
+    handler: broadcast_message_handler.stop_round
+    events:
+      - websocket:
+          route: stop_round
+  navigatePlayersToNextRoom:
+    handler: broadcast_message_handler.navigatePlayersToNextRoom
+    events:
+      - websocket:
+          route: navigatePlayersToNextRoom
+
+  create_room:
+    handler: set_room_data_handler.create_room
+    events:
+      - websocket:
+          route: create_room
+  start_round:
+    handler: set_room_data_handler.start_round
+    events:
+      - websocket:
+          route: start_round
+  enter_room:
+    handler: set_room_data_handler.enter_room
+    events:
+      - websocket:
+          route: enter_room
+  check_round:
+    handler: set_room_data_handler.check_round
+    events:
+      - websocket:
+          route: check_round
+  save_round:
+    handler: set_room_data_handler.save_round
+    events:
+      - websocket:
+          route: save_round
+
+  play_round:
+    handler: get_room_data_handler.play_round
+    events:
+      - websocket:
+          route: play_round
+  get_current_players:
+    handler: get_room_data_handler.get_current_players
+    events:
+      - websocket:
+          route: get_current_players
+  get_results_for_room:
+    handler: get_room_data_handler.get_results_for_room
+    events:
+      - websocket:
+          route: get_results_for_room
+  load_user_inputs:
+    handler: get_room_data_handler.load_user_inputs
+    events:
+      - websocket:
+          route: load_user_inputs
+
+  remove_player_from_room:
+    handler: delete_room_handler.remove_player_from_room
+    events:
+      - websocket:
+          route: remove_player_from_room
+
+resources:
+  Resources:
+    MyAppTable:
+      Type: "AWS::DynamoDB::Table"
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: "roomId"
+            AttributeType: "S"
+        KeySchema:
+          - AttributeName: "roomId"
+            KeyType: "HASH"
+        BillingMode: PAY_PER_REQUEST
+        TableName: game_data

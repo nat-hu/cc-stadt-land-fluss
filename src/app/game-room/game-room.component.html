@@ -1,0 +1,30 @@
+<div class="page-title-container">
+  <h1>Game room</h1>
+</div>
+
+<div class="body-container game-room-body">
+  <p>Verbleibende Zeit: {{expirationCounter}}</p>
+  <p>Runde {{currentRound}}/{{numberOfRounds}}</p>
+  <p>Buchstabe: {{generatedLetter}}</p>
+
+  <form >
+    <div class="form">
+      <div *ngFor="let category of categories; let i = index" class="form" >
+        <label for="cat-{{category}}">{{category}}:</label>
+        <input id="cat-{{category}}" class="category, form-control" type="text" maxlength="40" ngModel name="cat"
+               (keyup)="checkStopButtonEnabled()"  [disabled]="inputsFieldsDisabled"  pattern="[a-zA-Z\- ]*"  #cat="ngModel">
+               
+      
+       <div *ngIf="cat.errors?.['pattern']">
+                <small class = "text-danger">Eingabe darf nur Buchstaben und "-" enthalten.</small>
+      </div>          
+      </div>
+   
+      
+      <button id="stop-button" (click)="stopRound(true)" [disabled]="buttonClicked || stopButtonDisabled">
+        Stopp
+      </button>
+    </div>
+  </form>
+</div>
+

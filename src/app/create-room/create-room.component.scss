@@ -1,0 +1,41 @@
+#create-room-body {
+  position: fixed;
+  height: 60vh;
+  width: 100%;
+  top: 25vh;
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+  align-items: center;
+  overflow-y: auto;
+
+  input, select {
+    margin-bottom: 1.5vh;
+    margin-top: 1vh;
+  }
+
+  .category-active {
+    background-color: #689ad8;
+    color: white;
+  }
+
+  #category {
+    margin: 5px;
+    text-decoration: none;
+    border: 0.1px solid black;
+    border-radius: 5px;
+    padding: 5px;
+    cursor: pointer;
+  }
+
+  #category:hover {
+    background-color: #689ad8;
+    color: white;
+  }
+
+  #create-room {
+    position: fixed;
+    bottom: 5vh;
+    align-self: center;
+  }
+}

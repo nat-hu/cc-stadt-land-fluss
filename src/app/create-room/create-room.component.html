@@ -1,0 +1,29 @@
+<div class="page-title-container">
+  <h1>Neues Spiel</h1>
+</div>
+
+<div id="create-room-body">
+  <p>Benutzername: {{username}}</p>
+
+  <div class="form">
+    <label for="timer">Dauer einer Runde in Sekunden:</label>
+    <select id="timer" name="timer" [(ngModel)]="selectedTimerOption">
+      <option *ngFor="let option of timerOptions">{{option}}</option>
+    </select>
+
+    <label for="rounds">Rundenanzahl:</label>
+    <input type="number" id="rounds" name="rounds" max="5" min="1" [(ngModel)]="rounds"
+           onkeyup="if(this.value > 5) this.value = 5; if(this.value < 1) this.value = 1;">
+
+    <label for="number_players">Spieleranzahl:</label>
+    <input type="number" id="number_players" name="number_players" max="5" min="2" [(ngModel)]="numberPlayers"
+           onkeyup="if(this.value > 5) this.value = 5; if(this.value < 2) this.value = 2;">
+
+    <label for="category">Kategorien:</label>
+    <div *ngFor="let category of categories; let i = index">
+      <input id="category" name="category" class="category" placeholder="{{category}}" readonly (click)="toggleCategory(i)">
+    </div>
+
+    <button id="create-room" (click)="createRoom()" [disabled]="selectedCategoriesIndices.length < 3">Raum-ID generieren</button>
+  </div>
+</div>

@@ -1,0 +1,25 @@
+<div class="page-title-container">
+  <h1>Stadt Land Fluss</h1>
+</div>
+
+<div class="body-container">
+  <div class="form">
+    <label for="username">Benutzername:</label>
+    <input  type="text" id="username" name="username" value=""  [(ngModel)]="username" required maxlength="20" pattern="[a-zA-Z\-]*" #uname="ngModel" >
+
+    <div *ngIf="uname.errors?.['pattern']">
+      <small class = "text-danger">Benutzername darf nur Buchstaben und "-" enthalten.</small>
+
+    </div> 
+    
+    <label for="link">Raum-ID</label>
+    <input type="text" id="link" name="link" value="" required [(ngModel)]="link" maxlength="40" pattern="[a-zA-Z0-9\-]*" #room_id="ngModel">
+    <div *ngIf="room_id.errors?.['pattern']">
+      <small class = "text-danger">Link darf nur Buchstaben, Nummern und "-" enthalten.</small>
+    </div> 
+
+
+    <button (click)="createRoom()" [disabled]="username === '' || uname.invalid" >Starte ein neues Spiel</button>
+    <button (click)="enterRoom()" [disabled]="username === '' || link === '' || room_id.invalid || uname.invalid ">Betrete ein Spiel</button>
+  </div>
+</div>

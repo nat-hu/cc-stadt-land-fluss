@@ -1,0 +1,26 @@
+<div class="page-title-container">
+  <h1>Warte auf Spieler...</h1>
+</div>
+
+<div class="body-container">
+  <div class="loader" *ngIf="!roomDataLoaded"></div>
+  <div *ngIf="roomDataLoaded">
+    <div class="current-players">
+      <h4>Aktuelle Spieler: </h4>
+      <ul>
+        <li *ngFor="let player of players">{{player}}</li>
+      </ul>
+    </div>
+
+    <p>Benutzername: {{username}}</p>
+    <p>Rundenanzahl: {{rounds}}</p>
+    <p>Spieleranzahl: {{numberOfPlayers}}</p>
+    <p>Raum-ID: {{roomId}}</p>
+    <p>Dauer einer Runde: {{timer}}</p>
+
+    <button (click)="startGame()" [disabled]="!startGameEnabled">Spiel starten</button>
+    <p [hidden]="numberOfPlayers == players.length" class="start-game-info">
+      Das Spiel kann erst gestartet werden, wenn sich {{numberOfPlayers}} Spieler im Raum befinden
+    </p>
+  </div>
+</div>

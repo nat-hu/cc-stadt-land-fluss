@@ -1,0 +1,19 @@
+.game-room-body {
+  position: fixed;
+  height: 60vh;
+  width: 100%;
+  top: 25vh;
+  overflow-y: auto;
+
+  p {
+    margin: 0.5vh;
+    font-weight: bold;
+  }
+
+  #stop-button {
+    position: fixed;
+    bottom: 6vh;
+    align-self: center;
+    width: 10vw;
+  }
+}
