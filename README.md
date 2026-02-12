@@ -1,29 +1,48 @@
 # StadtLandFluss
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.0.1.
+A real‑time, browser‑based multiplayer version of the classic *City–Country–River* game, built as a fully serverless web application on AWS.
 
-## Development server
+> This project was developed as a team project of the **Cloud Computing** module at HdM Stuttgart.  
+> Team members: Sophia Schwalb, Natalie Hussfeldt, Anh Thu Bui, Gamze Isik.
 
-First, run `npm instal`
-Then, `npm install -g @angular/cli` if needed
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+---
 
-## Code scaffolding
+## Game Idea 
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Inspired by party games like **Skribbl.io**, this project turns *City–Country–River* into an online multiplayer experience.
 
-## Build
+Core game features:
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+- Create custom **game rooms** (rounds, timer, categories, player count).
+- Join existing rooms via a room code.
+- **Waiting room** showing all connected players.
+- **Letter generator** to pick a random starting letter.
+- Timed rounds where each player fills in their answers per category.
+- Display of all players’ inputs after each round.
+- **Hall of Fame** / scoreboard at the end of the game.
 
-## Running unit tests
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Tech Stack & Architecture
 
-## Running end-to-end tests
+### Frontend
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+- **Angular** (TypeScript) as the main web application framework.
+- Uses **WebSockets** for real‑time communication with the backend.
+- Deployed as a static web app to **AWS S3** and served via a generated URL.
 
-## Further help
+### Backend
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+- **Python** for server‑side game logic.
+- **Serverless Framework** to define and deploy infrastructure via a single `serverless.yml`:
+  - DynamoDB tables  
+  - API routes  
+  - Lambda functions  
+  - IAM roles and permissions
+
+### AWS Components
+DynamoDB, AWS Lambda, API Gateway (WebSocket API), CloudWatch, S3
+
+
+
+
+
